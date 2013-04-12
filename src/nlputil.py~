@@ -36,11 +36,9 @@ def max_similarity(word1, word2, simtype):
 def select_path_similarity():
     return lambda x, y: x.path_similarity(y)
 
-# extremely slow
 def select_lch_similarity():
     return lambda x, y: x.lch_similarity(y)
 
 _brown_ic = wordnet_ic.ic('ic-brown.dat')
-# very slow
 def select_resnick_similarity():
     return lambda x, y: x.res_similarity(y, _brown_ic)

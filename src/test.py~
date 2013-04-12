@@ -67,4 +67,4 @@ print "\n[TEST POS-TAG]"
 
 print "\n[WORDNET-BASED SIMILARITY]"
 #print max_similarity('dog', 'umbrella', select_resnick_similarity())
-print wordnet_cohesion(d)
+print wordnet_cohesion

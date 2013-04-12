@@ -79,7 +79,7 @@ def max_max_similarity(sent1, sent2, word_type, simtype):
         return 0
     else:
         return max([nlputil.max_similarity(x, y, simtype) 
-            for x in words1 for y in words2])
+        for x in words1 for y in words2])
 
 # measuring WordNet-based cohesion using max_max_similarity
 # caution: extremely slow

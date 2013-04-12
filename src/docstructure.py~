@@ -65,7 +65,6 @@ class Document:
     def pos_tag(self):
         for x in self.pars:
             x.pos_tag()
-        self.pos_tagged = True
 
 # return a function that retrieves the word list of the desired type from a sentence
 # stem overrides remove_stopwords, which means stem always removes stopwords
