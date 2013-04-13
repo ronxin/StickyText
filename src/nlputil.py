@@ -29,7 +29,12 @@ def noun_synsets(word):
 #   OR
 #   select_resnick_similarity()
 def max_similarity(word1, word2, simtype):
-    return max(simtype(x, y) for x in noun_synsets(word1) for y in noun_synsets(word2))
+    nsx = noun_synsets(word1)
+    nsy = noun_synsets(word2)
+    if len(nsx)==0 or len(nsy)==0:
+        return 0
+    else:
+        return max(simtype(x, y) for x in nsx for y in nsy)
 
 # returns a simtype function for use of max_similarity(), same below
 # very slow

@@ -35,3 +35,5 @@ def paragraph_readability(doc, metric=flesch_kinciad_grade_level):
         x.readability = metric(x)
     doc.par_readability = [x.readability for x in doc.pars]
     return doc.par_readability
+
+def 
