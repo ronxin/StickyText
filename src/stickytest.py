@@ -47,13 +47,13 @@ wo = word_overlap_cohesion(d, is_local=True, label_sent=False)
 wog = word_overlap_cohesion(d, is_local=False, label_sent=False)
 vo = word_dist_cohesion(d, is_local=True, label_sent=False)
 vog = word_dist_cohesion(d, is_local=False, label_sent=False)
-wn = wordnet_cohesion(d, is_local=True, label_sent=False)
+#wn = wordnet_cohesion(d, is_local=True, label_sent=False)
 fout.write("<label><h4>Cohesion Statistics</h4></label>")
 hprint("Word Overlap Local: %.3f"%wo)
 hprint("Word Overlap Global: %.3f"%wog)
 hprint("Freq. Dist. Local: %.3f"%vo)
 hprint("Freq. Dist. Global: %.3f"%vog)
-hprint("WordNet Local: %.3f"%wn)
+#hprint("WordNet Local: %.3f"%wn)
 
 # plot cohesion curve
 # Refer to: http://www.dynamicdrive.com/dynamicindex11/linegraph.htm
