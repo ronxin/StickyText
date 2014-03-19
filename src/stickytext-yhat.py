@@ -9,7 +9,8 @@ from nlputil import *
 import cStringIO
 
 class StickyTextYhat (YhatModel):
-
+  REQUIREMENTS="PyHyphen==2.0.4"
+  
   def hprint(self, s=""):
     self.fout.write(s+"<br/>")
   def hprint2(self, s=""):
