@@ -4,8 +4,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>StickyText - Text Cohesion Analyzer</title>
 <style>
-body{font-family:arial;}
-/*h1{text-align:center;}*/
+body{background-color:#d0e4fe; font-family:arial;}
+h1{text-align:center;}
 p{font-size:16px;}
 .bold {font-weight: bold;}
 .red {color: #FF0000;}
@@ -14,7 +14,35 @@ p{font-size:16px;}
 </head>
 
 <body>
+<center>
 <h1>StickyText - Text Cohesion Analyzer</h1>
+
+<div>
+	<pre>
+<?php
+$url = 'http://umsi.yhathq.com/rongxin1989@gmail.com/models/HelloWorld/';
+$ch = curl_init($url);
+ 
+$json = json_encode(array("name" => "xin"));
+
+$yhatuser = 'rongxin1989@gmail.com';
+$yhatapi = 'ff7bb725be9e4a32af286f464b316a23';
+
+$headers = array();
+$headers[] = 'Content-Type: application/json';
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+curl_setopt($ch, CURLOPT_POST, 1);
+curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
+curl_setopt($ch, CURLOPT_USERPWD, "$yhatuser:$yhatapi");
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+$response = curl_exec($ch);
+curl_close($ch);
+
+echo json_encode(json_decode($response, TRUE), 2);
+?>
+	</pre>
+</div>
 
 <p>
 <h2>Input Essay:</h2>
@@ -55,34 +83,22 @@ if(isset($_POST['mytext']))
 <hr>
 <p>
 <?php
-	if (isset($_POST["mytext"])) {
-		$url = 'http://umsi.yhathq.com/rongxin1989@gmail.com/models/StickyText/';
-		$ch = curl_init($url);
-		 
-		$json = json_encode($_POST);
-
-		$yhatuser = 'rongxin1989@gmail.com';
-		$yhatapi = 'ff7bb725be9e4a32af286f464b316a23';
-
-		$headers = array();
-		$headers[] = 'Content-Type: application/json';
-		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-		curl_setopt($ch, CURLOPT_POST, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
-		curl_setopt($ch, CURLOPT_USERPWD, "$yhatuser:$yhatapi");
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-		$response = curl_exec($ch);
-		curl_close($ch);
-
-		// For debug only
-		echo "<div>";
-		echo $response;
-		echo "</div>";
-
-		if (isset($response['html_output'])) {
-			echo $response['html_output'];
-		}
+	$strin = $_POST["mytext"];
+	$metric = $_POST["metric"];
+	$scale = $_POST["scale"];
+	$good = $_POST["good"];
+	$bad = $_POST["bad"];
+	//echo $strin;
+	//Note: The folder below needs to give "_www" user permission of all kinds.
+	$temp_file = "/Users/ronxin/StickyText/src/temp.txt";
+	file_put_contents($temp_file, $strin);
+	if($strin != ""){
+			$command = "python /Users/ronxin/StickyText/src/stickytext.py ".$temp_file." ".$metric." ".$scale." ".$good." ".$bad;
+			echo "<div>$command</div>";
+	    exec($command, $ret);
+	    //echo "The return is: <br />";
+	    //var_dump($ret);
+	    echo $ret[0];
 	}
 ?>
 </p>
@@ -91,6 +107,7 @@ if(isset($_POST['mytext']))
 Download: <a href="file/rong-stickytext-psy808.pdf">Psych 808 Class Project Report</a><br/>
 </P>
 &copy; 2014&nbsp;Xin Rong, <a href="mailto:ronxin@umich.edu">ronxin@umich.edu</a><br/>
+</center>
 </body>
 <script src="jquery-1.10.2.js"></script>
 <script src="yhat.js"></script>
