@@ -9,13 +9,14 @@ from nlputil import *
 import cStringIO
 
 class StickyTextYhat (YhatModel):
-  @preprocess(in_type=dict, out_type=dict)
-
-  def hprint(s=""):
+  REQUIREMENTS="PyHyphen==2.0.4"
+  
+  def hprint(self, s=""):
     self.fout.write(s+"<br/>")
-  def hprint2(s=""):
+  def hprint2(self, s=""):
     self.fout.write(s+'\r')
 
+  @preprocess(in_type=dict, out_type=dict)
   def execute(self, data):
     dstr = data['mytext']
     metric = data['metric']
