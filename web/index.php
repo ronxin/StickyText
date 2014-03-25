@@ -5,8 +5,8 @@
 <title>StickyText - Text Cohesion Analyzer</title>
 <style>
 body{font-family:arial;}
-/*h1{text-align:center;}*/
 p{font-size:16px;}
+.center{text-align:center;}
 .bold {font-weight: bold;}
 .red {color: #FF0000;}
 .yellow-background {background-color: Yellow;}
@@ -14,12 +14,15 @@ p{font-size:16px;}
 </head>
 
 <body>
+	<center>
 <h1>StickyText - Text Cohesion Analyzer</h1>
 
-<p>
+<div style="background-color: LightGray; padding: 10px;">
+	<p class="center">
 <h2>Input Essay:</h2>
+<div id="sample-sel"></div>
 <form action="index.php" method="post" name="myform">
-<textarea name="mytext" rows="20" cols="80" style="font-family:arial;font-size:15px;"><?php 
+<textarea name="mytext" id="mytext" rows="20" cols="80" style="font-family:arial;font-size:15px;"><?php 
 if(isset($_POST['mytext'])) 
 { 
    echo htmlentities($_POST['mytext'], ENT_QUOTES); 
@@ -52,14 +55,20 @@ if(isset($_POST['mytext']))
 <input type="submit" name="submit" value="Submit" style="width: 140px;font-size:25px" /> <br />
 </form>
 </p>
-<hr>
-<p>
+</div>
+
+<p class="center">
 <?php
 	if (isset($_POST["mytext"])) {
 		$url = 'http://umsi.yhathq.com/rongxin1989@gmail.com/models/StickyText/';
 		$ch = curl_init($url);
-		 
-		$json = json_encode($_POST);
+		
+		$request = $_POST;
+		// Remove non-ascii characters from the user input text.
+		$text = $request['mytext'];
+		$text = preg_replace('/\r/', "\n", $text);
+		$request['mytext'] = preg_replace('/[\x00-\x09\x0B-\x1F\x80-\xFF]/', '', $text);
+		$json = json_encode($request);
 
 		$yhatuser = 'rongxin1989@gmail.com';
 		$yhatapi = 'ff7bb725be9e4a32af286f464b316a23';
@@ -74,23 +83,21 @@ if(isset($_POST['mytext']))
 
 		$response = curl_exec($ch);
 		curl_close($ch);
-
-		// For debug only
-		echo "<div>";
-		echo $response;
-		echo "</div>";
-
-		if (isset($response['html_output'])) {
-			echo $response['html_output'];
+		$response = json_decode($response, TRUE);
+		if (isset($response['result']['html_output'])) {
+			echo $response['result']['html_output'];
+		} else {
+			var_dump($response);
 		}
 	}
 ?>
 </p>
 <hr>
 <p>
-Download: <a href="file/rong-stickytext-psy808.pdf">Psych 808 Class Project Report</a><br/>
+<a href="file/rong-stickytext-psy808.pdf">About this project</a><br/>
 </P>
 &copy; 2014&nbsp;Xin Rong, <a href="mailto:ronxin@umich.edu">ronxin@umich.edu</a><br/>
+</center>
 </body>
 <script src="jquery-1.10.2.js"></script>
 <script src="yhat.js"></script>

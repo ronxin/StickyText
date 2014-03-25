@@ -64,7 +64,14 @@ class StickyTextYhat (YhatModel):
 
     # plot cohesion curve
     # Refer to: http://www.dynamicdrive.com/dynamicindex11/linegraph.htm
+    if scale == '1':
+        is_local = True
+    elif scale =='2':
+        is_local = False
+    else:
+        is_local = False
     met = None
+    metric = str(metric)
     if metric != '0':
         if metric == '1':
             met = word_overlap_cohesion
@@ -72,10 +79,6 @@ class StickyTextYhat (YhatModel):
             met = word_dist_cohesion
         elif metric == '3':
             met = wordnet_cohesion
-        if scale == '1':
-            is_local = True
-        elif scale =='2':
-            is_local = False
         parcoh = paragraph_cohesion(d, metric=met, is_local=is_local)
         self.fout.write("<label><h4>Paragraphic Cohesion Plot</h4></label>")
         self.hprint()
@@ -107,6 +110,8 @@ class StickyTextYhat (YhatModel):
     output = self.fout.getvalue()
     self.fout.close()
     return { "html_output": output }
+
+#StickyTextYhat().run()
 
 yh = Yhat("rongxin1989@gmail.com", "ff7bb725be9e4a32af286f464b316a23", "http://umsi.yhathq.com/")
 yh.deploy ("StickyText", StickyTextYhat, globals())
